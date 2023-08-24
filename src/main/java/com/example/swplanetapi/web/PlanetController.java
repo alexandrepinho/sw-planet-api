@@ -20,7 +20,8 @@ public class PlanetController {
 
     @PostMapping
     public ResponseEntity<Planet> create(@RequestBody Planet planet){
-        return ResponseEntity.status(HttpStatus.CREATED).body(planetService.create(planet));
+        Planet planeCreated = planetService.create(planet);
+        return ResponseEntity.status(HttpStatus.CREATED).body(planeCreated);
     }
     
 }
