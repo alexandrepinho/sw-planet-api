@@ -1,33 +1,32 @@
 package com.example.swplanetapi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 import static com.example.swplanetapi.common.PlanetConstants.PLANET;
+import static com.example.swplanetapi.common.PlanetConstants.INVALID_PLANET;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.test.context.SpringBootTest;
-// import org.springframework.boot.test.mock.mockito.MockBean;
 
-@ExtendWith(MockitoExtension.class) // utlizando somente mockito sem spring boot
+@ExtendWith(MockitoExtension.class) // utlizando somente mockito sem spring boot para teste unitário
 // @SpringBootTest(classes = PlanetService.class)
-public class PlanetServiceTest {
+class PlanetServiceTest {
 
-    //@Autowired
+    // @Autowired
     @InjectMocks // utlizando somente mockito sem spring boot
     private PlanetService planetService;
 
-    //@MockBean
+    // @MockBean
     @Mock // utlizando somente mockito sem spring boot
     private PlanetRepository planetRepository;
 
-    //operacao_estado_retorno
+    // operacao_estado_retorno
     @Test
-    public void createPlanet_WithValidData_ReturnsPlanet(){
+    void createPlanet_WithValidData_ReturnsPlanet(){
         // AAA
         // Arrange
         when(planetRepository.save(PLANET)).thenReturn(PLANET);
@@ -38,5 +37,14 @@ public class PlanetServiceTest {
 
         //Assert
         assertThat(sut).isEqualTo(PLANET);
+    }
+
+    @Test
+    void createPlanet_WithInvalidData_ThrowsException() {
+
+        when(planetRepository.save(INVALID_PLANET)).thenThrow(RuntimeException.class);
+
+        assertThatThrownBy(() -> planetService.create(INVALID_PLANET)).isInstanceOf(RuntimeException.class);
+
     }
 }
