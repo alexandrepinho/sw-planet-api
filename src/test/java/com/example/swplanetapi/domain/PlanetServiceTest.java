@@ -3,6 +3,9 @@ package com.example.swplanetapi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
+
+import java.util.Optional;
+
 import static com.example.swplanetapi.common.PlanetConstants.PLANET;
 import static com.example.swplanetapi.common.PlanetConstants.INVALID_PLANET;
 
@@ -46,5 +49,25 @@ class PlanetServiceTest {
 
         assertThatThrownBy(() -> planetService.create(INVALID_PLANET)).isInstanceOf(RuntimeException.class);
 
+    }
+
+    @Test
+    void getPlanet_ByExistingId_ReturnsPlanet(){
+        when(planetRepository.findById(1L)).thenReturn(Optional.of(PLANET));
+
+        Optional<Planet> sut = planetService.get(1L);
+
+        assertThat(sut).isNotEmpty();
+        assertThat(sut.get()).isEqualTo(PLANET);
+    }
+
+
+     @Test
+    void getPlanet_ByUnexistingId_ReturnsEmpty(){
+        when(planetRepository.findById(1L)).thenReturn(Optional.empty());
+
+        Optional<Planet> sut = planetService.get(1L);
+
+        assertThat(sut).isEmpty();
     }
 }

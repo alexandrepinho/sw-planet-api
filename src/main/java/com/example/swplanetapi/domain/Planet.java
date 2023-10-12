@@ -46,4 +46,6 @@ public class Planet {
         return EqualsBuilder.reflectionEquals(obj, this);
     }
 
+    public Planet(){}
+
 }
