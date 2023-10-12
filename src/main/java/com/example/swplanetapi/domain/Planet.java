@@ -48,4 +48,9 @@ public class Planet {
 
     public Planet(){}
 
+    public Planet(String climate, String terrain) {
+        this.climate = climate;
+        this.terrain = terrain;
+    }
+
 }
