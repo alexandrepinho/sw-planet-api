@@ -11,15 +11,15 @@ public class PlanetService {
 
     private PlanetRepository planetRepository;
 
-    public PlanetService(PlanetRepository planetRepository){
+    public PlanetService(PlanetRepository planetRepository) {
         this.planetRepository = planetRepository;
     }
 
-    public Planet create(Planet planet){
+    public Planet create(Planet planet) {
         return planetRepository.save(planet);
     }
 
-    public Optional<Planet> get(Long id){
+    public Optional<Planet> get(Long id) {
         return planetRepository.findById(id);
     }
 
@@ -29,8 +29,12 @@ public class PlanetService {
 
     public List<Planet> list(String terrain, String climate) {
         Example<Planet> query = QueryBuilder.makeQuery(new Planet(climate, terrain));
-        
+
         return planetRepository.findAll(query);
     }
-    
+
+    public void remove(Long id) {
+        planetRepository.deleteById(id);
+    }
+
 }
