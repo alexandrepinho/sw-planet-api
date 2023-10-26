@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static com.example.swplanetapi.common.PlanetConstants.PLANET;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest
 class PlanetRepositoryTest {
@@ -28,5 +29,24 @@ class PlanetRepositoryTest {
         assertThat(sut.getClimate()).isEqualTo(PLANET.getClimate());
         assertThat(sut.getTerrain()).isEqualTo(PLANET.getTerrain());
     }
+
+    @Test
+    void createPlanet_WithInvalidData_ThrowsException() {
+        Planet emptyPlanet = new Planet();
+        Planet invalidPlanet = new Planet("", "", "");
+
+        assertThatThrownBy(() -> planetRepository.save(emptyPlanet)).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(() -> planetRepository.save(invalidPlanet)).isInstanceOf(RuntimeException.class);
+    }
+
+    @Test
+    void createPlanet_WithExistingName_ThrowsException(){
+        Planet planet = testEntityManager.persistFlushFind(PLANET);
+        testEntityManager.detach(planet);
+        planet.setId(null);
+        assertThatThrownBy(() -> planetRepository.save(planet)).isInstanceOf(RuntimeException.class);
+
+    }
+
 
 }
