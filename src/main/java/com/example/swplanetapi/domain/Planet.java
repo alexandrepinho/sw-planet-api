@@ -44,8 +44,16 @@ public class Planet {
         return id;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setClimate(String climate) {
+        this.climate = climate;
     }
 
     public String getClimate() {
@@ -54,6 +62,10 @@ public class Planet {
 
     public String getTerrain() {
         return terrain;
+    }
+    
+    public void setTerrain(String terrain) {
+        this.terrain = terrain;
     }
 
     @Override
